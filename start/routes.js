@@ -22,6 +22,8 @@ Route.post('/api/hadic/call', 'SmartcontractController.MethodCall')
 
 Route.post('/api/hadic/send', 'SmartcontractController.MethodSend')
 
+Route.post('/api/hadic/deploy', 'SmartcontractController.MethodDeploy')
+
 Route.any('*', ({response}) => {
     response.json({error: "Invalid URL, Please check url!!!"})
 })

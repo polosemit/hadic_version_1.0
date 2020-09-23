@@ -52,27 +52,27 @@ class SmartcontractController {
         }
     }
 
-    // async MethodDeploy({ request, response, params }) {
-    //     try {
-    //         jsonData (abi, bytecode, id, company_name, date, account)
-    //         const jsonData = JSON.parse(request.raw())
-    //         response.implicitEnd = false
+    async MethodDeploy({ request, response, params }) {
+        try {
+            jsonData (abi, bytecode, id, company_name, date, account)
+            const jsonData = JSON.parse(request.raw())
+            response.implicitEnd = false
 
-    //         var contract = new web3.eth.Contract(JSON.parse(jsonData.abi));
-    //         contract.deploy({
-    //             data: '0x'+jsonData.bytecode,
-    //             arguments: [jsonData.id, jsonData.company_name, jsonData.date]
-    //         }).send({ from: jsonData.account, gasPrice: 2000, gas: 6000000},
-    //             async function (error, transactionHash) {
-    //                 console.log('Transaction Hash: ', transactionHash)
-    //             }).on('receipt', async (receipt) => {
-    //                 console.log('Contract address: ', receipt.contractAddress);
-    //                 resolve(receipt);
-    //             })
-    //     } catch (error) {
-    //         response.json({ error: "deploy: " + error.toString() })
-    //     }
-    // }
+            var contract = new web3.eth.Contract(JSON.parse(jsonData.abi));
+            contract.deploy({
+                data: '0x'+jsonData.bytecode,
+                arguments: [jsonData.id, jsonData.company_name, jsonData.date]
+            }).send({ from: jsonData.account, gasPrice: 2000, gas: 6000000},
+                async function (error, transactionHash) {
+                    console.log('Transaction Hash: ', transactionHash)
+                }).on('receipt', async (receipt) => {
+                    console.log('Contract address: ', receipt.contractAddress);
+                    resolve(receipt);
+                })
+        } catch (error) {
+            response.json({ error: "deploy: " + error.toString() })
+        }
+    }
 }
 
 module.exports = SmartcontractController
