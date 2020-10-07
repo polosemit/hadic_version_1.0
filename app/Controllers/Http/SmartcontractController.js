@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var Web3 = require('web3');
-var web3 = new Web3("http://localhost:8545");
+var web3 = new Web3(new Web3.providers.HttpProvider("http://172.18.100.54:8545"));
 var PROMISE = require('promise');
 
 let abi = '[{"inputs": [{"internalType": "uint256","name": "_id","type": "uint256"},{"internalType": "string","name": "_company_name","type": "string"},{"internalType": "string","name": "_date","type": "string"}],"stateMutability": "nonpayable","type": "constructor"},{"inputs": [],"name": "displayData","outputs": [{"internalType": "uint256","name": "id","type": "uint256"},{"internalType": "string","name": "company_name","type": "string"},{"internalType": "string","name": "date","type": "string"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "_id","type": "uint256"},{"internalType": "string","name": "_company_name","type": "string"},{"internalType": "string","name": "_date","type": "string"}],"name": "storeData","outputs": [],"stateMutability": "nonpayable","type": "function"}]'
@@ -18,8 +18,8 @@ class SmartcontractController {
             console.log(params.methods)
             ////////// SMART CONTRACT //////////
             // instantiating a contract object
-            var contract = new web3.eth.Contract(JSON.parse(abi), params.contract, { from: "0x8659E929339ADEe4D181b24f55901DC7D219C773" })
-
+            var contract = new web3.eth.Contract(JSON.parse(abi), params.contract, { from: "0x4f646898966708FCBA294caf5025CE39b5913182" })
+            // return new PROMISE(function (resolve, reject) {
             var method = "contract.methods." + params.methods + ".call()"
 
             const run = eval(method)
@@ -27,8 +27,10 @@ class SmartcontractController {
                 response.json({ result: result })
             })
                 .catch(error => {
+                    console.log(error.toString())
                     response.json({ error: error.toString() })
                 })
+            // })
         } catch (error) {
             response.json({ error: "call: " + error.toString() })
         }
@@ -36,7 +38,7 @@ class SmartcontractController {
 
     async MethodSend({ request, response, params }) {
         try {
-            const jsonData = JSON.parse(request.raw())
+            // const jsonData = JSON.parse(request.raw())
             response.implicitEnd = false
 
             ////////// SMART CONTRACT //////////
@@ -55,7 +57,9 @@ class SmartcontractController {
                     resolve(result)
                 })
                     .catch(error => {
-                        response.json({ error: error.toString() })
+                        console.log(error.toString())
+                        // response.json({ error: error.toString() })
+                        reject(error);
                     })
             })
         } catch (error) {
@@ -76,8 +80,14 @@ class SmartcontractController {
                     arguments: ['1', "Serunai Commerce Sdn Bhd", "2/10/2020"]
                 }).send({ from: account, gasPrice: 2000, gas: 6000000 },
                     async function (error, transactionHash) {
+                        console.log("masuk")
+                        if(error){
+                            console.log(error.toString())
+                            reject(error)
+                        }
                         console.log('Transaction Hash: ', transactionHash)
                     }).on('receipt', async (receipt) => {
+                        console.log("masuk")
                         console.log('Contract address: ', receipt.contractAddress);
                         // fs.writeFile('contract.txt', receipt.contractAddress, function (err) {
                         //     if (err) throw err;
@@ -91,6 +101,9 @@ class SmartcontractController {
                         //         console.log(data.toString('utf8'))
                         //     });
                         resolve(receipt);
+                    })
+                    .catch(error=> {
+                        console.log(error)
                     })
             })
         } catch (error) {
