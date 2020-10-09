@@ -18,12 +18,19 @@ const Route = use('Route')
 
 Route.on('/').render('welcome');
 
-Route.get('/api/hadic/call/:methods/:contract', 'SmartcontractController.MethodCall')
+Route.group(() => {
+    Route.get('call/:methods/:contract', 'SmartcontractController.MethodCall')
 
-Route.post('/api/hadic/send/:contract', 'SmartcontractController.MethodSend')
+    Route.post('send/:contract', 'SmartcontractController.MethodSend')
 
-Route.get('/api/hadic/deploy', 'SmartcontractController.MethodDeploy')
+    Route.get('deploy', 'SmartcontractController.MethodDeploy')
+}).prefix('api/hadic/version0.1')
 
-Route.any('*', ({response}) => {
-    response.json({error: "Invalid URL, Please check url!!!"})
+Route.group(() => {
+    Route.get('getblock/:blockHash', 'BlockController.getBlock')
+
+    Route.get('gettransaction/:txid', 'BlockController.getTransaction')
+}).prefix('api/hadic/block')
+Route.any('*', ({ response }) => {
+    response.json({ error: "Invalid URL, Please check url!!!" })
 })
