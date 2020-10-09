@@ -10,16 +10,16 @@ class BlockController {
             return new PROMISE(function (resolve, reject) {
                 web3.eth.getBlock(params.blockHash)
                     .then(result => {
-                        console.log(result)
+                        // console.log(result)
                         resolve({ block: result })
                     })
                     .catch(error => {
-                        console.log("inside promise: " + error)
+                        console.log("inside promise getblock: " + error)
                         reject(error)
                     })
             })
         } catch (error) {
-            console.log("inside try catch: " + error)
+            console.log("inside try catch getblock: " + error)
             reject(error)
         }
     }
@@ -29,16 +29,16 @@ class BlockController {
             return new PROMISE(function (resolve, reject) {
                 web3.eth.getTransaction(params.txid)
                     .then(result => {
-                        console.log(result)
+                        // console.log(result)
                         resolve({ transaction: result })
                     })
                     .catch(error => {
-                        console.log("inside promise: " + error)
+                        console.log("inside promise gettransaction: " + error)
                         reject(error)
                     })
             })
         } catch (error) {
-            console.log("inside try catch: " + error)
+            console.log("inside try catch gettransaction: " + error)
             reject(error)
         }
     }

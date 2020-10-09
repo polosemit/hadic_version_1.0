@@ -26,7 +26,7 @@ class SmartcontractController {
                 const run = eval(method)
                 run.then(result => {
                     var res = JSON.parse('{"status": 200,"message": "success"}')
-                    console.log("res: " + result)
+                    // console.log("res: " + result)
                     var resultNew = JSON.parse('{"ApplicationId": "' + result.ApplicationId + '","CompanyId":"' + result.CompanyId + '","CBId":"' + result.CBId + '","CBCountryId":"' + result.CBCountryId + '","HalalCertDateIssued":"' + result.HalalCertDateIssued + '", "HalalCertDateExpired":"' + result.HalalCertDateExpired + '", "HalalCertRefNo":"' + result.HalalCertRefNo + '"}')
                     resolve({
                         res,
@@ -34,7 +34,7 @@ class SmartcontractController {
                     })
                 })
                     .catch(error => {
-                        console.log(error.toString())
+                        console.log("methodCall error: "+error.toString())
                         reject({ error: error.toString() })
                         // response.json({ error: error.toString() })
                     })
@@ -61,11 +61,11 @@ class SmartcontractController {
 
                 const run = eval(method)
                 run.then(result => {
-                    console.log(result)
+                    // console.log(result)
                     resolve(result)
                 })
                     .catch(error => {
-                        console.log(error.toString())
+                        console.log("methodSend error: "+error.toString())
                         // response.json({ error: error.toString() })
                         reject(error);
                     })
