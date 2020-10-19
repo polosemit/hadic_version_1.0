@@ -24,13 +24,21 @@ Route.group(() => {
     Route.post('send/:contract', 'SmartcontractController.MethodSend')
 
     Route.get('deploy', 'SmartcontractController.MethodDeploy')
-}).prefix('api/hadic/version0.1')
+}).prefix('api/vhsmart/v1')
+
+Route.group(() => {
+    Route.get('call/:methods/:contract', 'HadicController.MethodCall')
+
+    Route.post('send/:contract', 'HadicController.MethodSend')
+
+    Route.get('deploy', 'HadicController.MethodDeploy')
+}).prefix('api/hadic/v1')
 
 Route.group(() => {
     Route.get('getblock/:blockHash', 'BlockController.getBlock')
 
     Route.get('gettransaction/:txid', 'BlockController.getTransaction')
-}).prefix('api/hadic/block')
+}).prefix('api/block/v1')
 Route.any('*', ({ response }) => {
     response.json({ error: "Invalid URL, Please check url!!!" })
 })

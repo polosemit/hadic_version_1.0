@@ -10,8 +10,11 @@ class BlockController {
             return new PROMISE(function (resolve, reject) {
                 web3.eth.getBlock(params.blockHash)
                     .then(result => {
+                        var status = JSON.parse('{"statusCode": 200,"message": "success"}')
                         // console.log(result)
-                        resolve({ block: result })
+                        resolve({ 
+                            status,
+                            result: result })
                     })
                     .catch(error => {
                         console.log("inside promise getblock: " + error)
@@ -29,8 +32,11 @@ class BlockController {
             return new PROMISE(function (resolve, reject) {
                 web3.eth.getTransaction(params.txid)
                     .then(result => {
+                        var status = JSON.parse('{"statusCode": 200,"message": "success"}')
                         // console.log(result)
-                        resolve({ transaction: result })
+                        resolve({ 
+                            status,
+                            result: result })
                     })
                     .catch(error => {
                         console.log("inside promise gettransaction: " + error)
