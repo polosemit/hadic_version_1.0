@@ -1,32 +1,53 @@
 'use strict'
 
+var fs = require('fs');
 var Web3 = require('web3');
-var web3 = new Web3("http://localhost:8545");
+var web3 = new Web3(new Web3.providers.HttpProvider(process.env.NODE_URL));
+var PROMISE = require('promise');
+const { resolve } = require('path');
 
-let abi = '[{"inputs": [{"internalType": "uint256","name": "_id","type": "uint256"},{"internalType": "string","name": "_company_name","type": "string"},{"internalType": "string","name": "_date","type": "string"}],"stateMutability": "nonpayable","type": "constructor"},{"inputs": [],"name": "displayData","outputs": [{"internalType": "uint256","name": "id","type": "uint256"},{"internalType": "string","name": "company_name","type": "string"},{"internalType": "string","name": "date","type": "string"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "_id","type": "uint256"},{"internalType": "string","name": "_company_name","type": "string"},{"internalType": "string","name": "_date","type": "string"}],"name": "storeData","outputs": [],"stateMutability": "nonpayable","type": "function"}]'
-let bytecode = '608060405234801561001057600080fd5b5060405161080938038061080983398181016040528101906100329190610185565b8260008001819055508160006001019080519060200190610054929190610077565b50806000600201908051906020019061006e929190610077565b505050506102b1565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106100b857805160ff19168380011785556100e6565b828001600101855582156100e6579182015b828111156100e55782518255916020019190600101906100ca565b5b5090506100f391906100f7565b5090565b61011991905b808211156101155760008160009055506001016100fd565b5090565b90565b600082601f83011261012d57600080fd5b815161014061013b82610231565b610204565b9150808252602083016020830185838301111561015c57600080fd5b610167838284610267565b50505092915050565b60008151905061017f8161029a565b92915050565b60008060006060848603121561019a57600080fd5b60006101a886828701610170565b935050602084015167ffffffffffffffff8111156101c557600080fd5b6101d18682870161011c565b925050604084015167ffffffffffffffff8111156101ee57600080fd5b6101fa8682870161011c565b9150509250925092565b6000604051905081810181811067ffffffffffffffff8211171561022757600080fd5b8060405250919050565b600067ffffffffffffffff82111561024857600080fd5b601f19601f8301169050602081019050919050565b6000819050919050565b60005b8381101561028557808201518184015260208101905061026a565b83811115610294576000848401525b50505050565b6102a38161025d565b81146102ae57600080fd5b50565b610549806102c06000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c80633bf408f41461003b5780636c96f1f914610057575b600080fd5b6100556004803603810190610050919061031e565b610077565b005b61005f6100b9565b60405161006e939291906103e5565b60405180910390f35b8260008001819055508160006001019080519060200190610099929190610210565b5080600060020190805190602001906100b3929190610210565b50505050565b6000606080600080015460006001016000600201818054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156101625780601f1061013757610100808354040283529160200191610162565b820191906000526020600020905b81548152906001019060200180831161014557829003601f168201915b50505050509150808054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156101fe5780601f106101d3576101008083540402835291602001916101fe565b820191906000526020600020905b8154815290600101906020018083116101e157829003601f168201915b50505050509050925092509250909192565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061025157805160ff191683800117855561027f565b8280016001018555821561027f579182015b8281111561027e578251825591602001919060010190610263565b5b50905061028c9190610290565b5090565b6102b291905b808211156102ae576000816000905550600101610296565b5090565b90565b600082601f8301126102c657600080fd5b81356102d96102d482610457565b61042a565b915080825260208301602083018583830111156102f557600080fd5b6103008382846104a9565b50505092915050565b600081359050610318816104fc565b92915050565b60008060006060848603121561033357600080fd5b600061034186828701610309565b935050602084013567ffffffffffffffff81111561035e57600080fd5b61036a868287016102b5565b925050604084013567ffffffffffffffff81111561038757600080fd5b610393868287016102b5565b9150509250925092565b60006103a882610483565b6103b2818561048e565b93506103c28185602086016104b8565b6103cb816104eb565b840191505092915050565b6103df8161049f565b82525050565b60006060820190506103fa60008301866103d6565b818103602083015261040c818561039d565b90508181036040830152610420818461039d565b9050949350505050565b6000604051905081810181811067ffffffffffffffff8211171561044d57600080fd5b8060405250919050565b600067ffffffffffffffff82111561046e57600080fd5b601f19601f8301169050602081019050919050565b600081519050919050565b600082825260208201905092915050565b6000819050919050565b82818337600083830152505050565b60005b838110156104d65780820151818401526020810190506104bb565b838111156104e5576000848401525b50505050565b6000601f19601f8301169050919050565b6105058161049f565b811461051057600080fd5b5056fea2646970667358221220f9be88b9d93337a0b3f17465c9471e1bba8cfdef5eff685b92007df9f78a01b064736f6c63430006060033';
+// let abi = '[{"inputs": [],"stateMutability": "nonpayable","type": "constructor"},{"inputs": [{"internalType": "uint256","name": "ApplicationId_","type": "uint256"}],"name": "displayHalalInfo","outputs": [{"components": [{"internalType": "uint256","name": "ApplicationId","type": "uint256"},{"internalType": "uint256","name": "CompanyId","type": "uint256"},{"internalType": "uint256","name": "CBId","type": "uint256"},{"internalType": "uint256","name": "CBCountryId","type": "uint256"},{"internalType": "string","name": "HalalCertDateIssued","type": "string"},{"internalType": "string","name": "HalalCertDateExpired","type": "string"},{"internalType": "string","name": "HalalCertRefNo","type": "string"}],"internalType": "struct VHSmart.HalalInfo","name": "_info","type": "tuple"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "","type": "uint256"}],"name": "info","outputs": [{"internalType": "uint256","name": "ApplicationId","type": "uint256"},{"internalType": "uint256","name": "CompanyId","type": "uint256"},{"internalType": "uint256","name": "CBId","type": "uint256"},{"internalType": "uint256","name": "CBCountryId","type": "uint256"},{"internalType": "string","name": "HalalCertDateIssued","type": "string"},{"internalType": "string","name": "HalalCertDateExpired","type": "string"},{"internalType": "string","name": "HalalCertRefNo","type": "string"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "_ApplicationId","type": "uint256"},{"internalType": "uint256","name": "_CompanyId","type": "uint256"},{"internalType": "uint256","name": "_CBId","type": "uint256"},{"internalType": "uint256","name": "_CBCountryId","type": "uint256"},{"internalType": "string","name": "_HalalCertDateIssued","type": "string"},{"internalType": "string","name": "_HalalCertDateExpired","type": "string"},{"internalType": "string","name": "_HalalCertRefNo","type": "string"}],"name": "storeHalalInfo","outputs": [],"stateMutability": "nonpayable","type": "function"}]'
+// let bytecode = '608060405234801561001057600080fd5b50610b46806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c8063293efdab146100465780632e34059914610062578063d5e5b59b14610098575b600080fd5b610060600480360381019061005b9190610750565b6100c8565b005b61007c60048036038101906100779190610727565b610198565b60405161008f9796959493929190610992565b60405180910390f35b6100b260048036038101906100ad9190610727565b6103a2565b6040516100bf9190610970565b60405180910390f35b6040518060e00160405280888152602001878152602001868152602001858152602001848152602001838152602001828152506000808981526020019081526020016000206000820151816000015560208201518160010155604082015181600201556060820151816003015560808201518160040190805190602001906101519291906105dc565b5060a082015181600501908051906020019061016e9291906105dc565b5060c082015181600601908051906020019061018b9291906105dc565b5090505050505050505050565b6000602052806000526040600020600091509050806000015490806001015490806002015490806003015490806004018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561025c5780601f106102315761010080835404028352916020019161025c565b820191906000526020600020905b81548152906001019060200180831161023f57829003601f168201915b505050505090806005018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156102fa5780601f106102cf576101008083540402835291602001916102fa565b820191906000526020600020905b8154815290600101906020018083116102dd57829003601f168201915b505050505090806006018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156103985780601f1061036d57610100808354040283529160200191610398565b820191906000526020600020905b81548152906001019060200180831161037b57829003601f168201915b5050505050905087565b6103aa61065c565b6000808381526020019081526020016000206040518060e001604052908160008201548152602001600182015481526020016002820154815260200160038201548152602001600482018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156104885780601f1061045d57610100808354040283529160200191610488565b820191906000526020600020905b81548152906001019060200180831161046b57829003601f168201915b50505050508152602001600582018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561052a5780601f106104ff5761010080835404028352916020019161052a565b820191906000526020600020905b81548152906001019060200180831161050d57829003601f168201915b50505050508152602001600682018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105cc5780601f106105a1576101008083540402835291602001916105cc565b820191906000526020600020905b8154815290600101906020018083116105af57829003601f168201915b5050505050815250509050919050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061061d57805160ff191683800117855561064b565b8280016001018555821561064b579182015b8281111561064a57825182559160200191906001019061062f565b5b5090506106589190610699565b5090565b6040518060e00160405280600081526020016000815260200160008152602001600081526020016060815260200160608152602001606081525090565b6106bb91905b808211156106b757600081600090555060010161069f565b5090565b90565b600082601f8301126106cf57600080fd5b81356106e26106dd82610a43565b610a16565b915080825260208301602083018583830111156106fe57600080fd5b610709838284610aa6565b50505092915050565b60008135905061072181610af9565b92915050565b60006020828403121561073957600080fd5b600061074784828501610712565b91505092915050565b600080600080600080600060e0888a03121561076b57600080fd5b60006107798a828b01610712565b975050602061078a8a828b01610712565b965050604061079b8a828b01610712565b95505060606107ac8a828b01610712565b945050608088013567ffffffffffffffff8111156107c957600080fd5b6107d58a828b016106be565b93505060a088013567ffffffffffffffff8111156107f257600080fd5b6107fe8a828b016106be565b92505060c088013567ffffffffffffffff81111561081b57600080fd5b6108278a828b016106be565b91505092959891949750929550565b600061084182610a6f565b61084b8185610a7a565b935061085b818560208601610ab5565b61086481610ae8565b840191505092915050565b600061087a82610a6f565b6108848185610a8b565b9350610894818560208601610ab5565b61089d81610ae8565b840191505092915050565b600060e0830160008301516108c06000860182610952565b5060208301516108d36020860182610952565b5060408301516108e66040860182610952565b5060608301516108f96060860182610952565b50608083015184820360808601526109118282610836565b91505060a083015184820360a086015261092b8282610836565b91505060c083015184820360c08601526109458282610836565b9150508091505092915050565b61095b81610a9c565b82525050565b61096a81610a9c565b82525050565b6000602082019050818103600083015261098a81846108a8565b905092915050565b600060e0820190506109a7600083018a610961565b6109b46020830189610961565b6109c16040830188610961565b6109ce6060830187610961565b81810360808301526109e0818661086f565b905081810360a08301526109f4818561086f565b905081810360c0830152610a08818461086f565b905098975050505050505050565b6000604051905081810181811067ffffffffffffffff82111715610a3957600080fd5b8060405250919050565b600067ffffffffffffffff821115610a5a57600080fd5b601f19601f8301169050602081019050919050565b600081519050919050565b600082825260208201905092915050565b600082825260208201905092915050565b6000819050919050565b82818337600083830152505050565b60005b83811015610ad3578082015181840152602081019050610ab8565b83811115610ae2576000848401525b50505050565b6000601f19601f8301169050919050565b610b0281610a9c565b8114610b0d57600080fd5b5056fea2646970667358221220daeafa93c1e26e59ae9f596a2ba7c670d847dff4fbd67c6d55a45306aee0007264736f6c63430006060033';
 
-let account = '0x8659E929339ADEe4D181b24f55901DC7D219C773'
+let account = fs.readFileSync('contract.txt', 'utf8')
 
 class SmartcontractController {
     async MethodCall({ request, response, params }) {
         try {
-            const jsonData = JSON.parse(request.raw())
+            // const jsonData = JSON.parse(request.raw())
             response.implicitEnd = false
-
+            // console.log(fs.readFileSync('bytecode.txt', 'utf8'))
             ////////// SMART CONTRACT //////////
             // instantiating a contract object
-            var contract = new web3.eth.Contract(JSON.parse(abi), "0xe87B20C695f03aCafBE16cd2B2B11F3366E1625D", { from: "0x8659E929339ADEe4D181b24f55901DC7D219C773" })
+            var contract = new web3.eth.Contract(JSON.parse(fs.readFileSync('abi.txt', 'utf8')), params.contract, { from: process.env.NODE_ACCOUNT_ADDRESS })
+            return new PROMISE(function (resolve, reject) {
+                var method = "contract.methods." + params.methods + ".call()"
 
-            var method = "contract.methods." + jsonData.method + ".call()"
+                const run = eval(method)
+                run.then(result => {
+                    var status = JSON.parse('{"statusCode": 200,"message": "success"}')
+                    // console.log("res: " + params.methods.includes("displayHalalInfo"))
+                    if (params.methods.includes("displayHalalInfo")) {
+                        var resultNew = JSON.parse('{"HalalInfoId": "' + result.HalalInfoId + '","CompId":"' + result.CompId + '","CBId":"' + result.CBId + '","CBCountry":"' + result.CBCountry + '", "Scheme":"' + result.Scheme + '", "HalalCertExp":"' + result.HalalCertExp + '", "HalalCertIssue":"' + result.HalalCertIssue + '", "HashValue":"' + result.HashValue + '"}')
+                    }
+                    if (params.methods.includes("displayProductSpec")) {
+                        var resultNew = JSON.parse('{"ProductId": "' + result.ProductId + '","Brand":"' + result.Brand + '","Ingredient":"' + result.Ingredient + '","PackageMaterial":"' + result.PackageMaterial + '", "ProductSpec":"' + result.ProductSpec + '", "ManufacturedId":"' + result.ManufacturedId + '", "SupplierId":"' + result.SupplierId + '", "HalalCertId":"' + result.HalalCertId + '", "HashValue":"' + result.HashValue + '"}')
+                    }
+                    if (params.methods.includes("displayIngredients")) {
+                        var resultNew = JSON.parse('{"IngId": "' + result.IngId + '","ProductId":"' + result.ProductId + '","CommercialName":"' + result.CommercialName + '","ManufacturedId":"' + result.ManufacturedId + '", "SupplierId":"' + result.SupplierId + '", "HalalCertId":"' + result.HalalCertId + '", "HalalCertExpDate":"' + result.HalalCertExpDate + '", "ProcessFlow":"' + result.ProcessFlow + '", "ProductSpec":"' + result.ProductSpec + '", "HashValue":"' + result.HashValue + '"}')
+                    }
 
-            const run = eval(method)
-            run.then(result => {
-                response.json({ result: result })
-            })
-                .catch(error => {
-                    response.json({ error: error.toString() })
+                    resolve({
+                        status,
+                        result: resultNew
+                    })
                 })
+                    .catch(error => {
+                        console.log("methodCall error: " + error.toString())
+                        reject({ error: error.toString() })
+                        // response.json({ error: error.toString() })
+                    })
+            })
         } catch (error) {
             response.json({ error: "call: " + error.toString() })
         }
@@ -39,14 +60,29 @@ class SmartcontractController {
 
             ////////// SMART CONTRACT //////////
             // instantiating a contract object
-            var contract = new web3.eth.Contract(JSON.parse(abi), "0xe87B20C695f03aCafBE16cd2B2B11F3366E1625D")
+            // console.log(account)
+            var contract = new web3.eth.Contract(JSON.parse(fs.readFileSync('abi.txt', 'utf8')), params.contract)
 
-            var method = "contract.methods." + jsonData.method + ".send({from: '"+account+"', gasPrice: 2000, gas: 6000000})"
+            return new PROMISE(function (resolve, reject) {
+                // contract.method.storeData(jsonData.id, jsonData.company_name, jsonData.date)
 
-            const run = eval(method)
-            const receive = await run
-            console.log("receive: "+JSON.stringify(receive))
-            response.json({ result: receive })
+                var method = "contract.methods." + jsonData.methods + ".send({from: '" + process.env.NODE_ACCOUNT_ADDRESS + "', gasPrice: '" + web3.utils.toHex(web3.utils.toWei('30', 'gwei')) + "', gas: '" + web3.utils.toHex(800000) + "'})"
+
+                const run = eval(method)
+                run.then(result => {
+                    var res = JSON.parse('{"statusCode": 200,"message": "success"}')
+                    // console.log(result)
+                    resolve({
+                        res,
+                        result: result
+                    })
+                })
+                    .catch(error => {
+                        console.log("methodSend error: " + error.toString())
+                        // response.json({ error: error.toString() })
+                        reject(error);
+                    })
+            })
         } catch (error) {
             response.json({ error: "send: " + error.toString() })
         }
@@ -54,21 +90,44 @@ class SmartcontractController {
 
     async MethodDeploy({ request, response, params }) {
         try {
-            jsonData (abi, bytecode, id, company_name, date, account)
-            const jsonData = JSON.parse(request.raw())
+            // jsonData (abi, bytecode, id, company_name, date, account)
+            // const jsonData = JSON.parse(request.raw())
             response.implicitEnd = false
 
-            var contract = new web3.eth.Contract(JSON.parse(jsonData.abi));
-            contract.deploy({
-                data: '0x'+jsonData.bytecode,
-                arguments: [jsonData.id, jsonData.company_name, jsonData.date]
-            }).send({ from: jsonData.account, gasPrice: 2000, gas: 6000000},
-                async function (error, transactionHash) {
-                    console.log('Transaction Hash: ', transactionHash)
-                }).on('receipt', async (receipt) => {
-                    console.log('Contract address: ', receipt.contractAddress);
-                    resolve(receipt);
-                })
+            var contract = new web3.eth.Contract(JSON.parse(fs.readFileSync('abi.txt', 'utf8')));
+            return new PROMISE(function (resolve, reject) {
+                contract.deploy({
+                    data: '0x' + fs.readFileSync('bytecode.txt', 'utf8')
+                }).send({ from: process.env.NODE_ACCOUNT_ADDRESS, gas: 4000000, gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')) },
+                    async function (error, transactionHash) {
+                        if (error) {
+                            console.log(error.toString())
+                            reject(error)
+                        }
+                        console.log('Transaction Hash: ', transactionHash)
+                    }).on('receipt', async (receipt) => {
+                        // console.log(receipt.contractAddress, receipt.contractAddress);
+                        var status = JSON.parse('{"statusCode": 200,"message": "success"}')
+                        fs.writeFile('contract.txt', receipt.contractAddress, function (err) {
+                            if (err) throw err;
+                            console.log('File is created successfully.');
+                        });
+                        fs.readFile('contract.txt',
+                            // callback function that is called when reading file is done
+                            function (err, data) {
+                                if (err) throw err;
+                                // data is a buffer containing file content
+                                console.log(data.toString('utf8'))
+                            });
+                        resolve({
+                            status,
+                            result: receipt
+                        });
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            })
         } catch (error) {
             response.json({ error: "deploy: " + error.toString() })
         }
