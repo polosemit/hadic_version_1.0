@@ -64,12 +64,12 @@ class HadicController {
             return new PROMISE(function (resolve, reject) {
                 // contract.method.storeData(jsonData.id, jsonData.company_name, jsonData.date)
 
-                var method = "contract.methods." + jsonData.methods + ".send({from: '" + process.env.NODE_ACCOUNT_ADDRESS + "', gasPrice: 2000, gas: 6000000})"
+                var method = "contract.methods." + jsonData.methods + ".send({from: '" + process.env.NODE_ACCOUNT_ADDRESS + "', gasPrice: '" + web3.utils.toHex(web3.utils.toWei('30', 'gwei')) + "', gas: '" + web3.utils.toHex(800000) + "'})"
 
                 const run = eval(method)
                 run.then(result => {
                     var res = JSON.parse('{"statusCode": 200,"message": "success"}')
-                    // console.log(result)
+                    console.log(result)
                     resolve({
                         res,
                         result: result
@@ -96,7 +96,7 @@ class HadicController {
             return new PROMISE(function (resolve, reject) {
                 contract.deploy({
                     data: '0x' + fs.readFileSync('bytecodeHadic.txt', 'utf8')
-                }).send({ from: process.env.NODE_ACCOUNT_ADDRESS, gasPrice: 2000, gas: 6000000 },
+                }).send({ from: process.env.NODE_ACCOUNT_ADDRESS, gas: 4000000, gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')) },
                     async function (error, transactionHash) {
                         if (error) {
                             console.log(error.toString())

@@ -1,1 +1,541 @@
-[{"inputs": [],"stateMutability": "nonpayable","type": "constructor"},{"inputs": [{"internalType": "uint256","name": "ApplicationId_","type": "uint256"}],"name": "displayHalalInfo","outputs": [{"components": [{"internalType": "uint256","name": "HalalInfoId","type": "uint256"},{"internalType": "uint256","name": "CompId","type": "uint256"},{"internalType": "uint256","name": "CBId","type": "uint256"},{"internalType": "string","name": "CBCountry","type": "string"},{"internalType": "string","name": "Scheme","type": "string"},{"internalType": "string","name": "HalalCertExp","type": "string"},{"internalType": "string","name": "HalalCertIssue","type": "string"}],"internalType": "struct VHSmart.HalalInfo","name": "info","type": "tuple"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "IngId","type": "uint256"}],"name": "displayIngredients","outputs": [{"components": [{"internalType": "uint256","name": "IngId","type": "uint256"},{"internalType": "uint256","name": "ProductId","type": "uint256"},{"internalType": "string","name": "CommercialName","type": "string"},{"internalType": "uint256","name": "ManufacturedId","type": "uint256"},{"internalType": "uint256","name": "SupplierId","type": "uint256"},{"internalType": "uint256","name": "HalalCertId","type": "uint256"},{"internalType": "string","name": "HalalCertExpDate","type": "string"},{"internalType": "string","name": "ProcessFlow","type": "string"},{"internalType": "string","name": "ProductSpec","type": "string"}],"internalType": "struct VHSmart.Ingredients","name": "ingr","type": "tuple"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "ProductId","type": "uint256"}],"name": "displayProductSpec","outputs": [{"components": [{"internalType": "uint256","name": "ProductId","type": "uint256"},{"internalType": "string","name": "Brand","type": "string"},{"internalType": "string","name": "Ingredient","type": "string"},{"internalType": "string","name": "PackageMaterial","type": "string"},{"internalType": "string","name": "ProductSpec","type": "string"},{"internalType": "uint256","name": "ManufacturedId","type": "uint256"},{"internalType": "uint256","name": "SupplierId","type": "uint256"},{"internalType": "uint256","name": "HalalCertId","type": "uint256"}],"internalType": "struct VHSmart.Product","name": "_prod","type": "tuple"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "","type": "uint256"}],"name": "info","outputs": [{"internalType": "uint256","name": "HalalInfoId","type": "uint256"},{"internalType": "uint256","name": "CompId","type": "uint256"},{"internalType": "uint256","name": "CBId","type": "uint256"},{"internalType": "string","name": "CBCountry","type": "string"},{"internalType": "string","name": "Scheme","type": "string"},{"internalType": "string","name": "HalalCertExp","type": "string"},{"internalType": "string","name": "HalalCertIssue","type": "string"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "","type": "uint256"}],"name": "ingr","outputs": [{"internalType": "uint256","name": "IngId","type": "uint256"},{"internalType": "uint256","name": "ProductId","type": "uint256"},{"internalType": "string","name": "CommercialName","type": "string"},{"internalType": "uint256","name": "ManufacturedId","type": "uint256"},{"internalType": "uint256","name": "SupplierId","type": "uint256"},{"internalType": "uint256","name": "HalalCertId","type": "uint256"},{"internalType": "string","name": "HalalCertExpDate","type": "string"},{"internalType": "string","name": "ProcessFlow","type": "string"},{"internalType": "string","name": "ProductSpec","type": "string"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "","type": "uint256"}],"name": "prod","outputs": [{"internalType": "uint256","name": "ProductId","type": "uint256"},{"internalType": "string","name": "Brand","type": "string"},{"internalType": "string","name": "Ingredient","type": "string"},{"internalType": "string","name": "PackageMaterial","type": "string"},{"internalType": "string","name": "ProductSpec","type": "string"},{"internalType": "uint256","name": "ManufacturedId","type": "uint256"},{"internalType": "uint256","name": "SupplierId","type": "uint256"},{"internalType": "uint256","name": "HalalCertId","type": "uint256"}],"stateMutability": "view","type": "function"},{"inputs": [{"internalType": "uint256","name": "_HalalInfoId","type": "uint256"},{"internalType": "uint256","name": "_CompId","type": "uint256"},{"internalType": "uint256","name": "_CBId","type": "uint256"},{"internalType": "string","name": "_CBCountry","type": "string"},{"internalType": "string","name": "_Scheme","type": "string"},{"internalType": "string","name": "_HalalCertExp","type": "string"},{"internalType": "string","name": "_HalalCertIssue","type": "string"}],"name": "storeHalalInfo","outputs": [],"stateMutability": "nonpayable","type": "function"},{"inputs": [{"internalType": "uint256","name": "_IngId","type": "uint256"},{"internalType": "uint256","name": "_ProductId","type": "uint256"},{"internalType": "string","name": "_CommercialName","type": "string"},{"internalType": "uint256","name": "_ManufacturedId","type": "uint256"},{"internalType": "uint256","name": "_SupplierId","type": "uint256"},{"internalType": "uint256","name": "_HalalCertId","type": "uint256"},{"internalType": "string","name": "_HalalCertExpDate","type": "string"},{"internalType": "string","name": "_ProcessFlow","type": "string"},{"internalType": "string","name": "_ProductSpec","type": "string"}],"name": "storeIngredients","outputs": [],"stateMutability": "nonpayable","type": "function"},{"inputs": [{"internalType": "uint256","name": "_ProductId","type": "uint256"},{"internalType": "string","name": "_Brand","type": "string"},{"internalType": "string","name": "_Ingredient","type": "string"},{"internalType": "string","name": "_PackageMaterial","type": "string"},{"internalType": "string","name": "_ProductSpec","type": "string"},{"internalType": "uint256","name": "_ManufacturedId","type": "uint256"},{"internalType": "uint256","name": "_SupplierId","type": "uint256"},{"internalType": "uint256","name": "_HalalCertId","type": "uint256"}],"name": "storeProductSpec","outputs": [],"stateMutability": "nonpayable","type": "function"}]
+[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "ApplicationId_",
+				"type": "uint256"
+			}
+		],
+		"name": "displayHalalInfo",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "HalalInfoId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "CompId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "CBId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "CBCountry",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "Scheme",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "HalalCertExp",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "HalalCertIssue",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "HashValue",
+						"type": "string"
+					}
+				],
+				"internalType": "struct VHSmart.HalalInfo",
+				"name": "_info",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "IngId_",
+				"type": "uint256"
+			}
+		],
+		"name": "displayIngredients",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "IngId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "ProductId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "CommercialName",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "ManufacturedId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "SupplierId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "HalalCertId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "HalalCertExpDate",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "ProcessFlow",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "ProductSpec",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "HashValue",
+						"type": "string"
+					}
+				],
+				"internalType": "struct VHSmart.Ingredients",
+				"name": "_ingr",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "ProductId_",
+				"type": "uint256"
+			}
+		],
+		"name": "displayProductSpec",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "ProductId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "Brand",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "Ingredient",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "PackageMaterial",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "ProductSpec",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "ManufacturedId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "SupplierId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "HalalCertId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "HashValue",
+						"type": "string"
+					}
+				],
+				"internalType": "struct VHSmart.Product",
+				"name": "_prod",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "info",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "HalalInfoId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "CompId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "CBId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "CBCountry",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "Scheme",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "HalalCertExp",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "HalalCertIssue",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "HashValue",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "ingr",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "IngId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "ProductId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "CommercialName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "ManufacturedId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "SupplierId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "HalalCertId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "HalalCertExpDate",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "ProcessFlow",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "ProductSpec",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "HashValue",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "prod",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "ProductId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "Brand",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "Ingredient",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "PackageMaterial",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "ProductSpec",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "ManufacturedId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "SupplierId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "HalalCertId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "HashValue",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_HalalInfoId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_CompId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_CBId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_CBCountry",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_Scheme",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_HalalCertExp",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_HalalCertIssue",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_HashValue",
+				"type": "string"
+			}
+		],
+		"name": "storeHalalInfo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_IngId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_ProductId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_CommercialName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_ManufacturedId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_SupplierId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_HalalCertId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_HalalCertExpDate",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_ProcessFlow",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_ProductSpec",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_HashValue",
+				"type": "string"
+			}
+		],
+		"name": "storeIngredients",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_ProductId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_Brand",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_Ingredient",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_PackageMaterial",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_ProductSpec",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_ManufacturedId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_SupplierId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_HalalCertId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_HashValue",
+				"type": "string"
+			}
+		],
+		"name": "storeProductSpec",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

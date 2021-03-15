@@ -28,13 +28,13 @@ class SmartcontractController {
                     var status = JSON.parse('{"statusCode": 200,"message": "success"}')
                     // console.log("res: " + params.methods.includes("displayHalalInfo"))
                     if (params.methods.includes("displayHalalInfo")) {
-                        var resultNew = JSON.parse('{"HalalInfoId": "' + result.HalalInfoId + '","CompId":"' + result.CompId + '","CBId":"' + result.CBId + '","CBCountry":"' + result.CBCountry + '", "Scheme":"' + result.Scheme + '", "HalalCertExp":"' + result.HalalCertExp + '", "HalalCertIssue":"' + result.HalalCertIssue + '"}')
+                        var resultNew = JSON.parse('{"HalalInfoId": "' + result.HalalInfoId + '","CompId":"' + result.CompId + '","CBId":"' + result.CBId + '","CBCountry":"' + result.CBCountry + '", "Scheme":"' + result.Scheme + '", "HalalCertExp":"' + result.HalalCertExp + '", "HalalCertIssue":"' + result.HalalCertIssue + '", "HashValue":"' + result.HashValue + '"}')
                     }
                     if (params.methods.includes("displayProductSpec")) {
-                        var resultNew = JSON.parse('{"ProductId": "' + result.ProductId + '","Brand":"' + result.Brand + '","Ingredient":"' + result.Ingredient + '","PackageMaterial":"' + result.PackageMaterial + '", "ProductSpec":"' + result.ProductSpec + '", "ManufacturedId":"' + result.ManufacturedId + '", "SupplierId":"' + result.SupplierId + '", "HalalCertId":"' + result.HalalCertId + '"}')
+                        var resultNew = JSON.parse('{"ProductId": "' + result.ProductId + '","Brand":"' + result.Brand + '","Ingredient":"' + result.Ingredient + '","PackageMaterial":"' + result.PackageMaterial + '", "ProductSpec":"' + result.ProductSpec + '", "ManufacturedId":"' + result.ManufacturedId + '", "SupplierId":"' + result.SupplierId + '", "HalalCertId":"' + result.HalalCertId + '", "HashValue":"' + result.HashValue + '"}')
                     }
                     if (params.methods.includes("displayIngredients")) {
-                        var resultNew = JSON.parse('{"IngId": "' + result.IngId + '","ProductId":"' + result.ProductId + '","CommercialName":"' + result.CommercialName + '","ManufacturedId":"' + result.ManufacturedId + '", "SupplierId":"' + result.SupplierId + '", "HalalCertId":"' + result.HalalCertId + '", "HalalCertExpDate":"' + result.HalalCertExpDate + '", "ProcessFlow":"' + result.ProcessFlow + '", "ProductSpec":"' + result.ProductSpec + '"}')
+                        var resultNew = JSON.parse('{"IngId": "' + result.IngId + '","ProductId":"' + result.ProductId + '","CommercialName":"' + result.CommercialName + '","ManufacturedId":"' + result.ManufacturedId + '", "SupplierId":"' + result.SupplierId + '", "HalalCertId":"' + result.HalalCertId + '", "HalalCertExpDate":"' + result.HalalCertExpDate + '", "ProcessFlow":"' + result.ProcessFlow + '", "ProductSpec":"' + result.ProductSpec + '", "HashValue":"' + result.HashValue + '"}')
                     }
 
                     resolve({
@@ -66,7 +66,7 @@ class SmartcontractController {
             return new PROMISE(function (resolve, reject) {
                 // contract.method.storeData(jsonData.id, jsonData.company_name, jsonData.date)
 
-                var method = "contract.methods." + jsonData.methods + ".send({from: '" + process.env.NODE_ACCOUNT_ADDRESS + "', gasPrice: 2000, gas: 6000000})"
+                var method = "contract.methods." + jsonData.methods + ".send({from: '" + process.env.NODE_ACCOUNT_ADDRESS + "', gasPrice: '" + web3.utils.toHex(web3.utils.toWei('30', 'gwei')) + "', gas: '" + web3.utils.toHex(800000) + "'})"
 
                 const run = eval(method)
                 run.then(result => {
@@ -98,7 +98,7 @@ class SmartcontractController {
             return new PROMISE(function (resolve, reject) {
                 contract.deploy({
                     data: '0x' + fs.readFileSync('bytecode.txt', 'utf8')
-                }).send({ from: process.env.NODE_ACCOUNT_ADDRESS, gasPrice: 2000, gas: 6000000 },
+                }).send({ from: process.env.NODE_ACCOUNT_ADDRESS, gas: 4000000, gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei')) },
                     async function (error, transactionHash) {
                         if (error) {
                             console.log(error.toString())
